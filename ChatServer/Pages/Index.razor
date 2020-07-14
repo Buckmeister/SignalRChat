@@ -1,0 +1,39 @@
+﻿@page "/"
+@inject NavigationManager navigationManager
+@inject IHubConnectionEventLog  connectionEventLog
+
+<div class="container-fluid">
+    <div class="card bg-light p-3">
+
+        <h2>SignalR Chat Server</h2>
+
+        <p class="small">
+            Please connect your client to<br />
+            @(navigationManager.BaseUri)Chat
+        </p>
+    </div>
+    <br />
+    <div class="card bg-light p-3">
+
+        <h3>Connection Log</h3>
+        Number of Events: @numberOfConnectionEvents
+        <ul>
+            @foreach (string e in connectionEventLog.Events)
+            {
+                <li class="small">@e</li>
+            }
+        </ul>
+    </div>
+    <button type="button" class="mt-2 btn btn-primary" @onclick="@GetNumberOfConnectionEvents">Refresh</button>
+</div>
+
+
+@code {
+
+    private int numberOfConnectionEvents=0;
+    
+    private void GetNumberOfConnectionEvents()
+    {
+        numberOfConnectionEvents = connectionEventLog.Events.Count;
+    }
+}
